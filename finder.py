@@ -13,9 +13,9 @@ class Finder:
         self.cards_hash = None
         self.cards_seen = []
         self.made_card_db = False
-        self.cards_to_send = []
+        self.cards_to_send = {}
         self.first_time = True
-        self.limit = 50
+        self.limit = 5
     #
     # # make a hash from concatenated links
     # def make_hash(self,links):
@@ -67,17 +67,9 @@ class Finder:
             resp = requests.get(card_dest)
             # make base64 image
             img = base64.b64encode(resp.content)
-            self.cards_to_send.append(img)
+            self.cards_to_send[card_dest]=img
         except IOError:
             print("eish")
 
-
-def main():
-    card_finder = Finder()
-    card_finder.get_list_of_cards_to_fetch()
-    for item in card_finder.cards_to_send:
-        break
-
-
-if __name__=='__main__':
-    main()
+    def get_cards_to_send(self):
+        return self.cards_to_send
